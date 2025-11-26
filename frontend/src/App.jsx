@@ -1,35 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, Link } from 'react-router-dom';
+import NewQuote from './pages/NewQuote';
+import Quotes from './pages/Quotes';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="container py-4">
+      <header className="mb-4 d-flex align-items-center justify-content-between">
+        <h1 className="h4 m-0">Preventivatore Veicoli</h1>
+        <nav>
+          <Link className="me-3" to="/">Nuovo Preventivo</Link>
+          <Link to="/quotes">Preventivi Salvati</Link>
+        </nav>
+      </header>
 
-export default App
+      <main>
+        <Routes>
+          <Route path="/" element={<NewQuote />} />
+          <Route path="/quotes" element={<Quotes />} />
+        </Routes>
+      </main>
+    </div>
+  );
+}
