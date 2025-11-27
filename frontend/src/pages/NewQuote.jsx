@@ -5,9 +5,10 @@ import QuoteSummary from '../components/QuoteSummary';
 
 export default function NewQuote() {
     const currentYear = new Date().getFullYear();
-    const { register, handleSubmit } = useForm({
-        defaultValues: { optionals: [], year: currentYear }
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: { optionals: [] }
     });
+
     const [vehicles, setVehicles] = useState([]);
     const [optionals, setOptionals] = useState([]);
     const [summary, setSummary] = useState(null);
@@ -116,7 +117,16 @@ export default function NewQuote() {
 
                     <div className="col-md-6">
                         <label className="form-label">Email</label>
-                        <input className="form-control" type="email" {...register('email', { required: true })} />
+                        <input
+                            className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                            type="email"
+                            {...register('email', { required: 'L’email è obbligatoria' })}
+                        />
+                        {errors.email && (
+                            <div className="invalid-feedback">
+                                {errors.email.message}
+                            </div>
+                        )}
                     </div>
 
                     <div className="col-12">
