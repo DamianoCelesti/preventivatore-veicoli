@@ -1,12 +1,12 @@
-
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { getVehicles, getOptionals, postQuote } from '../api/api';
 import QuoteSummary from '../components/QuoteSummary';
 
 export default function NewQuote() {
+    const currentYear = new Date().getFullYear();
     const { register, handleSubmit } = useForm({
-        defaultValues: { optionals: [] }
+        defaultValues: { optionals: [], year: currentYear }
     });
     const [vehicles, setVehicles] = useState([]);
     const [optionals, setOptionals] = useState([]);
@@ -14,7 +14,6 @@ export default function NewQuote() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-
         getVehicles()
             .then(arr => setVehicles(Array.isArray(arr) ? arr : []))
             .catch(err => {
@@ -56,6 +55,9 @@ export default function NewQuote() {
         }
     };
 
+
+    const years = Array.from({ length: 31 }, (_, i) => currentYear - i);
+
     return (
         <div className="row">
             <div className="col-lg-8">
@@ -72,7 +74,11 @@ export default function NewQuote() {
 
                     <div className="col-md-3">
                         <label className="form-label">Anno</label>
-                        <input className="form-control" type="number" {...register('year', { required: true })} placeholder="2025" />
+                        <select className="form-select" {...register('year', { required: true })}>
+                            {years.map(y => (
+                                <option key={y} value={y}>{y}</option>
+                            ))}
+                        </select>
                     </div>
 
                     <div className="col-md-3">
